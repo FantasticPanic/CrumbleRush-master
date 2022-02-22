@@ -6,6 +6,23 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
+    private static Player instance;
+
+    public static Player Instance
+    {
+        get
+        {
+            //if instance does not exist
+            if (instance == null)
+            {
+                // find the TileManager and made a reference to it
+                //we can access this in the PlayerDetection.cs script
+                instance = FindObjectOfType<Player>();
+            }
+            return instance;
+        }
+    }
+
     public float speed;
 
     private Vector3 dir;
