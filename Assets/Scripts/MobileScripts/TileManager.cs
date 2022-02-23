@@ -123,7 +123,7 @@ public class TileManager : MonoBehaviour
         if (spawnPickup == 0)
         {
             pickup.SetActive(true);
-            pickup.transform.DORotate(new Vector3(0,0,360),1, RotateMode.LocalAxisAdd).SetLoops(-1).SetEase(Ease.OutElastic);
+            pickup.transform.DORotate(new Vector3(0,0,360),1, RotateMode.LocalAxisAdd).SetLoops(-1).SetEase(Ease.Linear);
             
         }
 

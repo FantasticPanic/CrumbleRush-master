@@ -305,6 +305,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6164714067556330428, guid: 8836a8959d4b0ff419b52d1603bae551,
+        type: 3}
+      propertyPath: m_Type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6164714067556330428, guid: 8836a8959d4b0ff419b52d1603bae551,
+        type: 3}
+      propertyPath: m_Range
+      value: 1.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 6164714067556330428, guid: 8836a8959d4b0ff419b52d1603bae551,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 13.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6164714067556330428, guid: 8836a8959d4b0ff419b52d1603bae551,
+        type: 3}
+      propertyPath: m_SpotAngle
+      value: 65
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8836a8959d4b0ff419b52d1603bae551, type: 3}
 --- !u!4 &5312611273735366867 stripped
