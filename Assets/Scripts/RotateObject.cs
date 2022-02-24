@@ -14,6 +14,19 @@ public class RotateObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      this.transform.DORotate(new Vector3(0, 0, 360), 5, RotateMode.LocalAxisAdd).SetLoops(-1).SetEase(Ease.Linear);
+        if (Player.Instance.howToPlayPressed == true)
+        {
+            Rotate();
+        }
+        else
+        {
+            this.transform.DORestart(true);
+        }
+       // DOTween.SetTweensCapacity(2000, 100);
+    }
+
+    void Rotate()
+    {
+        this.transform.DORotate(new Vector3(0, 0, 360), 5, RotateMode.LocalAxisAdd).SetLoops(-1).SetEase(Ease.Linear);
     }
 }

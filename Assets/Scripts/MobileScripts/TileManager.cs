@@ -19,6 +19,7 @@ public class TileManager : MonoBehaviour
 
     private Stack<GameObject> topTiles = new Stack<GameObject>();
 
+
     //allows us to use TileManager wherever
     public static TileManager Instance
     {
@@ -44,11 +45,11 @@ public class TileManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CreateTiles(30);
+        CreateTiles(20);
 
         //call SpawnTile() 25 times
         // if you lower the number, you'll probably actually see the tiles spawning in.
-        for (int i = 0; i < 30; i++)
+        for (int i = 0; i < 10; i++)
         {
             SpawnTile();
         }
@@ -124,6 +125,7 @@ public class TileManager : MonoBehaviour
         {
             pickup.SetActive(true);
             pickup.transform.DORotate(new Vector3(0,0,360),1, RotateMode.LocalAxisAdd).SetLoops(-1).SetEase(Ease.Linear);
+            
             
         }
 
