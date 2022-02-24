@@ -50,6 +50,7 @@ public class Player : MonoBehaviour
     public Animator playerAnim;
 
     private float score = 0f;
+    private float oldScore = 0f;
     private float pointIncreasedPerSecond = 0f;
     //UI Canvas
     public Image background;
@@ -60,8 +61,6 @@ public class Player : MonoBehaviour
     private Collider ballCollision;
 
     private bool isPlaying;
-    //a public area list of this gameobject's ragdoll colliders
-    public List<Collider> RagdollParts = new List<Collider>();
     //reference to the contact point
     public Transform contactPoint;
     public Rigidbody RIGID_BODY;
@@ -85,23 +84,34 @@ public class Player : MonoBehaviour
 
     private void Awake()
     {
-       // SetRagdollParts();
+
+        RIGID_BODY = this.GetComponent<Rigidbody>();
         
     }
 
-    private void SetRagdollParts()
+    private void SetRagdollParts(bool state)
     {
         //set an array for all of the colliders that are children of this gameobject
-        Collider[] colliders = this.gameObject.GetComponentsInChildren<Collider>();
+        Rigidbody[] rigidbodies = this.gameObject.GetComponentsInChildren<Rigidbody>();
         //if a collider is not a collider of this gameobject in the hierarchy
+        foreach (Rigidbody rb in rigidbodies)
+        {
+            if (isDead)
+            {
+                rb.AddExplosionForce( 10f, dir, 10f);
+            }
+
+           rb.useGravity = state;
+            
+        }
+    }
+
+    private void SetColliderParts(bool state)
+    {
+        Collider[] colliders = this.gameObject.GetComponentsInChildren<Collider>();
         foreach (Collider c in colliders)
         {
-            if (c.gameObject != this.gameObject)
-            {
-               // c.isTrigger = true;
-                RagdollParts.Add(c);
-            }
-            
+            c.enabled = state;
         }
     }
 
@@ -111,7 +121,7 @@ public class Player : MonoBehaviour
     {
         //start the game, no movement
         dir = Vector3.zero;
-
+        SetColliderParts(true);
         isDead = false;
         playPressed = false;
         ballCollision = GetComponent<Collider>();
@@ -131,24 +141,26 @@ public class Player : MonoBehaviour
             titleText.SetActive(false);
             howToPlayPressed = false;
             //when left click and player is not dead
-            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) && !isDead)
-            {
-                //play random sound from array of movement sounds
-                SoundManager.SoundInstance.PlayRandomMoveSound();
-                //move the player based on their previous direction
-                if (dir == Vector3.forward)
-                {
-                    dir = Vector3.left;
-                    playerAnim.SetBool("isRunningLeft", true);
-                }
-                else
-                {
-                    dir = Vector3.forward;
+            if (!isDead) {
 
-                    playerAnim.SetBool("isRunningLeft", false);
+                if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+                {
+                    //play random sound from array of movement sounds
+                    SoundManager.SoundInstance.PlayRandomMoveSound();
+                    //move the player based on their previous direction
+                    if (dir == Vector3.forward)
+                    {
+                        dir = Vector3.left;
+                        playerAnim.SetBool("isRunningLeft", true);
+                    }
+                    else
+                    {
+                        dir = Vector3.forward;
+                        playerAnim.SetBool("isRunningLeft", false);
+                    }
                 }
-
                 pointIncreasedPerSecond = 1f;
+                IncreaseSpeed();
             }
         }
 
@@ -168,6 +180,7 @@ public class Player : MonoBehaviour
         // multiple by speed frame by frame count
         //character should move the same on every single device
         float amountToMove = speed * Time.deltaTime;
+       
 
         // direction that player moves multipled by frames
         transform.Translate(dir * amountToMove);
@@ -181,12 +194,6 @@ public class Player : MonoBehaviour
             SoundManager.SoundInstance.PlayGameOverSound();
             pointIncreasedPerSecond = 0;
 
-            //Stop the main camera from following the player
-            /*   if (this.gameObject.transform.childCount > 0)
-               {
-                   //StartCoroutine(WaitAndDie(2f));
-                   this.gameObject.transform.GetChild(8).transform.parent = null;
-               }*/
         }
 
         if (howToPlayPressed)
@@ -255,10 +262,16 @@ public class Player : MonoBehaviour
         isDead = true;
         resetBtn.SetActive(true);
         gameOverAnim.SetTrigger("GameOver");
-        this.gameObject.GetComponent<Collider>().enabled = false;
+        SetColliderParts(false);
+        SetRagdollParts(false);
         newCameraParent.transform.parent = null;
         waterPlane.transform.parent = null;
-
+        /////////RAGDOLL/////////
+        
+        GetComponent<Animator>().enabled = false;
+        RIGID_BODY.constraints = RigidbodyConstraints.None;
+        
+        /////////
         lastScoreText.text = ""+(int)score;
 
         //save the player's score as best score
@@ -278,7 +291,6 @@ public class Player : MonoBehaviour
             foreach (TextMeshProUGUI txt in scoreTexts)
             {
                
-                //txt.color = new Color (Random.value, Random.value, Random.value);
                 txt.color = Color.Lerp(Color.white, Color.black, Mathf.PingPong(Time.time, 1));
                 
             }
@@ -318,23 +330,17 @@ public class Player : MonoBehaviour
         {
             howToPlayPressed = true;
         }
-}
+    }
 
-
-    public void TurnOnRagdoll()
+    private void IncreaseSpeed()
     {
-        RIGID_BODY.useGravity = false;
-        RIGID_BODY.velocity = Vector3.zero;
-        this.gameObject.GetComponent<Collider>().enabled = false;
-        playerAnim.enabled = false;
-       // playerAnim.avatar = null;
-
-        foreach (Collider c in RagdollParts)
+        if (score > oldScore + 15)
         {
-            c.attachedRigidbody.velocity = Vector3.zero;
-            //c.isTrigger = false;
+            oldScore = score;
+            speed += 0.5f;
         }
     }
+
 
     /* void OnTriggerExit(Collider col)
      {
