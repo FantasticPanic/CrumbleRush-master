@@ -152,11 +152,6 @@ public class Player : MonoBehaviour
             }
         }
 
-        /* if (Input.GetKeyDown(KeyCode.Space))
-         {
-             CombatTextManager.Instance.CreateText(transform.position, "+3", new Color32(255, 255, 0, 255), false);
-             Debug.Log("pop text");
-         }*/
 
         else if (isDead)
         {
