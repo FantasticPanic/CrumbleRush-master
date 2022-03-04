@@ -50,9 +50,7 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        //_audioSource = GetComponent<AudioSource>();
         _audioSource = gameObject.GetComponent<AudioSource>();
-        //DontDestroyOnLoad(_backgroundTheme);
 
         
        
@@ -60,26 +58,23 @@ public class SoundManager : MonoBehaviour
 
     void Start()
     {
-        //_as = GetComponent<AudioSource>();
          
         PlayerPrefs.GetInt("Muted");
 
         if (PlayerPrefs.GetInt("Muted",0) == 0)
         {
             isSoundPlaying = true;
-            //playerCam.GetComponent<AudioListener>().enabled = true;
             AudioListener.volume = 1;
-            audioOnIcon.SetActive(true);
-            audioOffIcon.SetActive(false);
+            //audioOnIcon.SetActive(true);
+            //audioOffIcon.SetActive(false);
         }
         else
         {
 
             isSoundPlaying = false;
-            //playerCam.GetComponent<AudioListener>().enabled = false;
             AudioListener.volume = 0;
-            audioOnIcon.SetActive(false);
-            audioOffIcon.SetActive(true);
+            //audioOnIcon.SetActive(false);
+            //audioOffIcon.SetActive(true);
 
         }
     
@@ -115,7 +110,6 @@ public class SoundManager : MonoBehaviour
 
         if (PlayerPrefs.GetInt("Muted", 0) == 0)
         {
-           // playerCam.GetComponent<AudioListener>().enabled = true;
 
             AudioListener.volume = 1;
             
@@ -127,7 +121,6 @@ public class SoundManager : MonoBehaviour
         {
 
 
-            //playerCam.GetComponent<AudioListener>().enabled = false;
             AudioListener.volume = 0;
 
             audioOnIcon.SetActive(false);
