@@ -11,6 +11,7 @@ public class Leaderboards : MonoBehaviour
     [SerializeField]
     private Transform entryTemplate;
 
+
     private List<LeaderboardEntry> leaderboardEntryList;
     private List<Transform> leaderboardEntryTransformList;
 
@@ -20,6 +21,7 @@ public class Leaderboards : MonoBehaviour
         entryTemplate = entryContainer.Find("leaderboardEntryTemplate");
 
         entryTemplate.gameObject.SetActive(false);
+
 
         /* leaderboardEntryList = new List<LeaderboardEntry>()
          {
@@ -62,19 +64,13 @@ public class Leaderboards : MonoBehaviour
             CreateHighscoreEntryTransform(leaderboardEntry, entryContainer, leaderboardEntryTransformList);
         }
 
-       /* Scores scores = new Scores { leaderboardEntryList = leaderboardEntryList };
-        string json = JsonUtility.ToJson(scores, true);
-        PlayerPrefs.SetString("leaderboardTable", json);
-        PlayerPrefs.Save();
-        Debug.Log(PlayerPrefs.GetString("leaderboardTable"));
-        Debug.Log(Application.persistentDataPath + "/LeaderboardDataSaved.json");
-        System.IO.File.WriteAllText(Application.persistentDataPath +"/LeaderboardDataSaved.json", json);*/
+      
 
     }
 
     private void CreateHighscoreEntryTransform(LeaderboardEntry leaderboardEntry, Transform container, List<Transform> transformList)
     {
-        float templateHeight = 40.0f;
+        float templateHeight = 60.0f;
 
         Transform entryTransform = Instantiate(entryTemplate, entryContainer);
         RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
@@ -105,13 +101,49 @@ public class Leaderboards : MonoBehaviour
         entryTransform.Find("scoreText").GetComponent<TextMeshProUGUI>().text = score.ToString();
         string name = leaderboardEntry.name;
         entryTransform.Find("nameText").GetComponent<TextMeshProUGUI>().text = name;
+        entryTransform.Find("entryBackground").gameObject.SetActive(rank % 2 == 1);
+
+        //highlight player entry on the leaderboard
+        if (rank == 1)
+        {
+            entryTransform.Find("rankText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
+            entryTransform.Find("scoreText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
+            entryTransform.Find("nameText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
+        }
+
+        //Set trophies on 1st, 2nd and 3rd positions
+        switch (rank)
+        {
+            default:
+                entryTransform.Find("trophy").gameObject.SetActive(false);
+                break;
+            case 1:
+                entryTransform.Find("trophy").gameObject.GetComponent<Image>().color = new Color32 (209,212, 37, 255);
+                break;
+            case 2:
+                entryTransform.Find("trophy").GetComponent<Image>().color = new Color32(215, 215, 215, 255);
+                break;
+            case 3:
+                entryTransform.Find("trophy").GetComponent<Image>().color = new Color32(164, 92, 56, 255);
+                break;
+        }
 
         transformList.Add(entryTransform);
     }
 
     private void AddScoreEntry(int score, string name)
     {
+        LeaderboardEntry leaderboardEntry = new LeaderboardEntry { score = score, name = name };
+        
+        //Load saved scores
+        string jsonString = System.IO.File.ReadAllText(Application.persistentDataPath + "/LeaderboardDataSaved.json");
+        Scores scores = JsonUtility.FromJson<Scores>(jsonString);
 
+        //Add new scores
+        scores.leaderboardEntryList.Add(leaderboardEntry);
+
+        string json = JsonUtility.ToJson(scores, true);
+        System.IO.File.WriteAllText(Application.persistentDataPath + "/LeaderboardDataSaved.json", json);
     }
     // Start is called before the first frame update
     void Start()
