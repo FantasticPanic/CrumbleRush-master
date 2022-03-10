@@ -11,6 +11,21 @@ public class Leaderboards : MonoBehaviour
     [SerializeField]
     private Transform entryTemplate;
 
+    private bool containsPlayer = false;
+
+    private static Leaderboards leaderboardInstance = null;
+
+    public static Leaderboards LeaderboardsInstance
+    {
+        get
+        {
+            if (leaderboardInstance == null)
+            {
+                leaderboardInstance = FindObjectOfType<Leaderboards>();
+            }
+            return leaderboardInstance;
+        }
+    }
 
     private List<LeaderboardEntry> leaderboardEntryList;
     private List<Transform> leaderboardEntryTransformList;
@@ -58,80 +73,85 @@ public class Leaderboards : MonoBehaviour
             }
         }
 
-        leaderboardEntryTransformList = new List<Transform>();
+            leaderboardEntryTransformList = new List<Transform>();
         foreach (LeaderboardEntry leaderboardEntry in scores.leaderboardEntryList)
-        {
-            CreateHighscoreEntryTransform(leaderboardEntry, entryContainer, leaderboardEntryTransformList);
+        {           
+                CreateHighscoreEntryTransform(leaderboardEntry, entryContainer, leaderboardEntryTransformList);
+            
         }
-
-      
-
     }
 
     private void CreateHighscoreEntryTransform(LeaderboardEntry leaderboardEntry, Transform container, List<Transform> transformList)
     {
+
         float templateHeight = 60.0f;
-
-        Transform entryTransform = Instantiate(entryTemplate, entryContainer);
-        RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
-        entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * transformList.Count);
-        entryTransform.gameObject.SetActive(true);
-
         int rank = transformList.Count + 1;
-        string rankString;
-        switch (rank)
+
+        if (rank < 15)
         {
-            default:
-                rankString = rank + "TH";
-                break;
+            Transform entryTransform = Instantiate(entryTemplate, entryContainer);
+            RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
+            entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * transformList.Count);
+            entryTransform.gameObject.SetActive(true);
 
-            case 1:
-                rankString = "1st";
-                break;
-            case 2:
-                rankString = "2nd";
-                break;
-            case 3:
-                rankString = "3rd";
-                break;
+            string rankString;
 
+
+            switch (rank)
+            {
+                default:
+                    rankString = rank + "TH";
+                    break;
+
+                case 1:
+                    rankString = "1st";
+                    break;
+                case 2:
+                    rankString = "2nd";
+                    break;
+                case 3:
+                    rankString = "3rd";
+                    break;
+
+            }
+            entryTransform.Find("rankText").GetComponent<TextMeshProUGUI>().text = rankString;
+            long score = leaderboardEntry.score;
+            entryTransform.Find("scoreText").GetComponent<TextMeshProUGUI>().text = score.ToString();
+            string name = leaderboardEntry.name;
+            entryTransform.Find("nameText").GetComponent<TextMeshProUGUI>().text = name;
+            entryTransform.Find("entryBackground").gameObject.SetActive(rank % 2 == 1);
+
+
+            //highlight player entry on the leaderboard
+            if (rank == 1)
+            {
+                entryTransform.Find("rankText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
+                entryTransform.Find("scoreText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
+                entryTransform.Find("nameText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
+            }
+
+            //Set trophies on 1st, 2nd and 3rd positions
+            switch (rank)
+            {
+                default:
+                    entryTransform.Find("trophy").gameObject.SetActive(false);
+                    break;
+                case 1:
+                    entryTransform.Find("trophy").gameObject.GetComponent<Image>().color = new Color32(209, 212, 37, 255);
+                    break;
+                case 2:
+                    entryTransform.Find("trophy").GetComponent<Image>().color = new Color32(215, 215, 215, 255);
+                    break;
+                case 3:
+                    entryTransform.Find("trophy").GetComponent<Image>().color = new Color32(164, 92, 56, 255);
+                    break;
+            }
+
+            transformList.Add(entryTransform);
         }
-        entryTransform.Find("rankText").GetComponent<TextMeshProUGUI>().text = rankString;
-        long score = leaderboardEntry.score;
-        entryTransform.Find("scoreText").GetComponent<TextMeshProUGUI>().text = score.ToString();
-        string name = leaderboardEntry.name;
-        entryTransform.Find("nameText").GetComponent<TextMeshProUGUI>().text = name;
-        entryTransform.Find("entryBackground").gameObject.SetActive(rank % 2 == 1);
-
-        //highlight player entry on the leaderboard
-        if (rank == 1)
-        {
-            entryTransform.Find("rankText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
-            entryTransform.Find("scoreText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
-            entryTransform.Find("nameText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
-        }
-
-        //Set trophies on 1st, 2nd and 3rd positions
-        switch (rank)
-        {
-            default:
-                entryTransform.Find("trophy").gameObject.SetActive(false);
-                break;
-            case 1:
-                entryTransform.Find("trophy").gameObject.GetComponent<Image>().color = new Color32 (209,212, 37, 255);
-                break;
-            case 2:
-                entryTransform.Find("trophy").GetComponent<Image>().color = new Color32(215, 215, 215, 255);
-                break;
-            case 3:
-                entryTransform.Find("trophy").GetComponent<Image>().color = new Color32(164, 92, 56, 255);
-                break;
-        }
-
-        transformList.Add(entryTransform);
     }
 
-    private void AddScoreEntry(int score, string name)
+    public void AddScoreEntry(int score, string name)
     {
         LeaderboardEntry leaderboardEntry = new LeaderboardEntry { score = score, name = name };
         
@@ -145,15 +165,23 @@ public class Leaderboards : MonoBehaviour
         string json = JsonUtility.ToJson(scores, true);
         System.IO.File.WriteAllText(Application.persistentDataPath + "/LeaderboardDataSaved.json", json);
     }
+
+
+    private void AddPlayerScore()
+    {
+            AddScoreEntry(int.Parse(Player.Instance.bestScoreText.text.ToString()), Player.Instance.playerName);
+            Debug.Log("Player score added");
+        
+    }
     // Start is called before the first frame update
     void Start()
     {
-        
+        AddPlayerScore();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 }

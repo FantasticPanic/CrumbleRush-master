@@ -52,6 +52,7 @@ public class Player : MonoBehaviour
     private float score = 0f;
     private float oldScore = 0f;
     private float pointIncreasedPerSecond = 0f;
+    public string playerName = "You";
     //UI Canvas
     public Image background;
 
@@ -171,10 +172,8 @@ public class Player : MonoBehaviour
             ballCollision.enabled = false;
 
         }
-        //scoreText.text =  "Score  "+ (int)score;
         scoreText.text = "" + (int)score;
         score += pointIncreasedPerSecond * Time.deltaTime;
-        //StartCoroutine(WaitAndIncreaseScore(1));
 
 
         // multiple by speed frame by frame count
@@ -193,7 +192,6 @@ public class Player : MonoBehaviour
             GameOver();
             SoundManager.SoundInstance.PlayGameOverSound();
             pointIncreasedPerSecond = 0;
-
         }
 
         if (howToPlayPressed)
@@ -276,6 +274,8 @@ public class Player : MonoBehaviour
 
         //save the player's score as best score
         int bestScore = PlayerPrefs.GetInt("BestScore", 0);
+
+        
         //turn off collider
         this.gameObject.GetComponent<CapsuleCollider>().enabled = false;
 
@@ -301,7 +301,7 @@ public class Player : MonoBehaviour
 
     }
 
-    private bool IsGrounded()
+   /* private bool IsGrounded()
 
     {
         //collider has radius of 0.5f
@@ -317,7 +317,7 @@ public class Player : MonoBehaviour
         }
 
         return false;
-    }
+    }*/
 
     public void PlayMode()
     {
