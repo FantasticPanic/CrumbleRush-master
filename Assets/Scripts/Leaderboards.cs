@@ -7,9 +7,11 @@ using TMPro;
 public class Leaderboards : MonoBehaviour
 {
     [SerializeField]
-    private Transform entryContainer;
+    public Transform entryContainer;
     [SerializeField]
-    private Transform entryTemplate;
+    public Transform entryTemplate;
+    [SerializeField]
+    private GameObject leaderboardContainer;
 
     private bool containsPlayer = false;
 
@@ -32,9 +34,9 @@ public class Leaderboards : MonoBehaviour
 
     private void Awake()
     {
-        entryContainer = transform.Find("leaderboardEntryContainer");
-        entryTemplate = entryContainer.Find("leaderboardEntryTemplate");
-
+        //  entryContainer = transform.Find("leaderboardEntryContainer");
+        //  entryTemplate = entryContainer.Find("leaderboardEntryTemplate");
+        leaderboardContainer = transform.GetChild(0).gameObject;
         entryTemplate.gameObject.SetActive(false);
 
 
@@ -87,7 +89,7 @@ public class Leaderboards : MonoBehaviour
         float templateHeight = 60.0f;
         int rank = transformList.Count + 1;
 
-        if (rank < 15)
+        if (rank < 16)
         {
             Transform entryTransform = Instantiate(entryTemplate, entryContainer);
             RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
@@ -149,6 +151,7 @@ public class Leaderboards : MonoBehaviour
 
             transformList.Add(entryTransform);
         }
+
     }
 
     public void AddScoreEntry(int score, string name)
@@ -173,10 +176,18 @@ public class Leaderboards : MonoBehaviour
             Debug.Log("Player score added");
         
     }
+
+    public void TurnOn()
+    {
+        UIManager.Instance.TurnOn(transform.GetChild(0).gameObject);
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
         AddPlayerScore();
+        leaderboardContainer.SetActive(false);
     }
 
     // Update is called once per frame
