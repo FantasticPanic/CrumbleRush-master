@@ -182,6 +182,11 @@ public class Leaderboards : MonoBehaviour
         UIManager.Instance.TurnOn(transform.GetChild(0).gameObject);
     }
 
+    public void TurnOff()
+    {
+        UIManager.Instance.TurnOff(transform.GetChild(0).gameObject);
+    }
+
 
     // Start is called before the first frame update
     void Start()
