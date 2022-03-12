@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
             //if instance does not exist
             if (instance == null)
             {
-                // find the TileManager and made a reference to it
+                // find the Player and made a reference to it
                 //we can access this in the PlayerDetection.cs script
                 instance = FindObjectOfType<Player>();
             }
@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
     private float oldScore = 0f;
     private float pointIncreasedPerSecond = 0f;
     public string playerName = "You";
+    private bool isLeaderboardUpdated = false;
     //UI Canvas
     public Image background;
 
@@ -127,11 +128,11 @@ public class Player : MonoBehaviour
         playPressed = false;
         ballCollision = GetComponent<Collider>();
         ballCollision.enabled = true;
-
+        isLeaderboardUpdated = false;
         titleText.SetActive(true);
-        
+
         //ONLY KEEP ON FOR TESTING PURPOSES RESETS THE SCORE
-        //PlayerPrefs.DeleteAll();
+        // PlayerPrefs.DeleteAll();
     }
 
     // Update is called once per frame
@@ -142,7 +143,8 @@ public class Player : MonoBehaviour
             titleText.SetActive(false);
             howToPlayPressed = false;
             //when left click and player is not dead
-            if (!isDead) {
+            if (!isDead)
+            {
 
                 if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
                 {
@@ -163,14 +165,11 @@ public class Player : MonoBehaviour
                 pointIncreasedPerSecond = 1f;
                 IncreaseSpeed();
             }
-        }
-
-
-        else if (isDead)
-        {
-            pointIncreasedPerSecond = 0;
-            ballCollision.enabled = false;
-
+            else if (isDead)
+            {
+                pointIncreasedPerSecond = 0;
+                ballCollision.enabled = false;
+            }
         }
         scoreText.text = "" + (int)score;
         score += pointIncreasedPerSecond * Time.deltaTime;
@@ -282,10 +281,15 @@ public class Player : MonoBehaviour
         // when the player's current score is higher than their best score
         if (score > bestScore)
         {
-            PlayerPrefs.SetInt("BestScore", (int)score);
-            newHighScore.gameObject.SetActive(true);
             background.color = new Color32(204, 204, 0, 255);
-
+            newHighScore.gameObject.SetActive(true);
+            if (isLeaderboardUpdated == false)
+            {
+                PlayerPrefs.SetInt("BestScore", (int)score);
+                UpdatedPlayerScore((int)score, playerName);
+                isLeaderboardUpdated = true;
+                Debug.Log("Player score updated");
+            }
             //fore each TextMeshProUGUI type called txt in scoreTexts array (as mentioned in the fields)
             //use this if you want the text color to be white
             foreach (TextMeshProUGUI txt in scoreTexts)
@@ -300,24 +304,6 @@ public class Player : MonoBehaviour
 
 
     }
-
-   /* private bool IsGrounded()
-
-    {
-        //collider has radius of 0.5f
-        Collider[] colliders = Physics.OverlapSphere(contactPoint.position, .5f, whatIsGround);
-
-        //check each of the colliders to see if it is different from the player
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].gameObject != gameObject)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }*/
 
     public void PlayMode()
     {
@@ -341,33 +327,18 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void UpdatedPlayerScore(int score, string name )
+    {
+                Leaderboards.Instance.AddScoreEntry(score, name);
+                Debug.Log("New score added to leaderboard");              
+    }
 
-    /* void OnTriggerExit(Collider col)
-     {
-        //if the collider's tag is Tile
-         if (col.tag == "Tile")
-         {
-             RaycastHit hit;
+    public void DeletePlayerData()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 
-             // Place a ray underneath the player 
-             Ray downRay = new Ray(transform.position, -Vector3.up);
-                
-             //if the raycast does not hit anything (is out of bounds)
-             //player is dead
-             //reset button appears
-             if (!Physics.Raycast(downRay, out hit))
-             {
-                 isDead = true;
-                 resetBtn.SetActive(true);
 
-                 //Stop the main camera from following the player
-                 if (transform.childCount > 0)
-                 {
-                     transform.GetChild(0).transform.parent = null;
-                 }
-             }
-         }
-     }*/
-
+    
 
 }

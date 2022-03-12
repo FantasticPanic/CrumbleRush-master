@@ -13,19 +13,19 @@ public class Leaderboards : MonoBehaviour
     [SerializeField]
     private GameObject leaderboardContainer;
 
-    private bool containsPlayer = false;
+ 
 
-    private static Leaderboards leaderboardInstance = null;
+    private static Leaderboards instance;
 
-    public static Leaderboards LeaderboardsInstance
+    public static Leaderboards Instance
     {
         get
         {
-            if (leaderboardInstance == null)
+            if (instance == null)
             {
-                leaderboardInstance = FindObjectOfType<Leaderboards>();
+                instance = FindObjectOfType<Leaderboards>();
             }
-            return leaderboardInstance;
+            return instance;
         }
     }
 
@@ -220,7 +220,7 @@ public class Leaderboards : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AddPlayerScore();
+       // AddPlayerScore();
         leaderboardContainer.SetActive(false);
     }
 
