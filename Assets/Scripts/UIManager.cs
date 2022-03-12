@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
     public void TurnOn(GameObject uiElement)
     {
         uiElement.SetActive(true);
+        uiElement.transform.GetComponent<RectTransform>().localPosition = new Vector3(1000f, 0f, 0f);
     }
 
     public void TurnOff(GameObject uiElement)
