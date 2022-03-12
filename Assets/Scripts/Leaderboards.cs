@@ -34,30 +34,46 @@ public class Leaderboards : MonoBehaviour
 
     private void Awake()
     {
-        //  entryContainer = transform.Find("leaderboardEntryContainer");
-        //  entryTemplate = entryContainer.Find("leaderboardEntryTemplate");
         leaderboardContainer = transform.GetChild(0).gameObject;
         entryTemplate.gameObject.SetActive(false);
 
+        string jsonString = PlayerPrefs.GetString("LeaderboardSavedData");
+        Scores scores = JsonUtility.FromJson<Scores>(jsonString);
 
-        /* leaderboardEntryList = new List<LeaderboardEntry>()
-         {
-             new LeaderboardEntry {
-                 score = 500,
-                 name = "AAA"
-             },
-             new LeaderboardEntry {
-                 score = 200,
-                 name = "King Doof"
-             },
-         };*/
+        if (scores == null)
+        {
+            Debug.Log("Grabbing leaderboard data....");
+            AddScoreEntry(100, "Manilla Mike");
+            AddScoreEntry(222, "myname_geooff");
+            AddScoreEntry(351, "marks_wherehouz");
+            AddScoreEntry(515, "tony hawk");
+            AddScoreEntry(3514, "Chef Ramsay");
+            AddScoreEntry(194, "mad_money_shaun");
+            AddScoreEntry(325, "gamscam");
+            AddScoreEntry(436, "lastBastion");
+            AddScoreEntry(766, "adjudicator far");
+            AddScoreEntry(667, "thug spunky");
+            AddScoreEntry(142, "ciaraFan96");
+            AddScoreEntry(624, "GLOCK PAUL");
+            AddScoreEntry(414, "Will Smith");
+            AddScoreEntry(868, "fart/nasty");
+        }
 
+
+        /////////////////////////////////
+        ///TESTING SAVING AND LOADING OF SCORES DATA
         /* string jsonString = PlayerPrefs.GetString("leaderboardTable");
          Scores score = System.IO.File.ReadAllText(Application.persistentDataPath + "/LeaderboardDataSaved.json"); 
          Scores scores =  JsonUtility.FromJson<Scores>(jsonString);*/
 
-        string jsonString = System.IO.File.ReadAllText(Application.persistentDataPath + "/LeaderboardDataSaved.json");
-        Scores scores = JsonUtility.FromJson<Scores>(jsonString);
+        // string jsonString = System.IO.File.ReadAllText(Application.persistentDataPath + "/LeaderboardDataSaved.json");
+        //Scores scores = JsonUtility.FromJson<Scores>(jsonString);
+        //////////////////////////////
+        ///
+
+        jsonString = PlayerPrefs.GetString("LeaderboardSavedData");
+        scores = JsonUtility.FromJson<Scores>(jsonString);
+
         
 
         //sorting alogrithm
@@ -157,16 +173,29 @@ public class Leaderboards : MonoBehaviour
     public void AddScoreEntry(int score, string name)
     {
         LeaderboardEntry leaderboardEntry = new LeaderboardEntry { score = score, name = name };
-        
+
         //Load saved scores
-        string jsonString = System.IO.File.ReadAllText(Application.persistentDataPath + "/LeaderboardDataSaved.json");
+        //string jsonString = System.IO.File.ReadAllText(Application.persistentDataPath + "/LeaderboardDataSaved.json");
+        // Scores scores = JsonUtility.FromJson<Scores>(jsonString);
+        string jsonString = PlayerPrefs.GetString("LeaderboardSavedData");
         Scores scores = JsonUtility.FromJson<Scores>(jsonString);
 
+        if (scores == null)
+        {
+            scores = new Scores()
+            {
+                leaderboardEntryList = new List<LeaderboardEntry>()
+            };
+        }
         //Add new scores
         scores.leaderboardEntryList.Add(leaderboardEntry);
 
-        string json = JsonUtility.ToJson(scores, true);
-        System.IO.File.WriteAllText(Application.persistentDataPath + "/LeaderboardDataSaved.json", json);
+        // string json = JsonUtility.ToJson(scores, true);
+        // System.IO.File.WriteAllText(Application.persistentDataPath + "/LeaderboardDataSaved.json", json);
+
+        string json = JsonUtility.ToJson(scores);
+        PlayerPrefs.SetString("LeaderboardSavedData", json);
+        PlayerPrefs.Save();
     }
 
 
