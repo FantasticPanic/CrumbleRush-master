@@ -17,6 +17,9 @@ public class Settings : MonoBehaviour
     void Start()
     {
         settingsContainer.SetActive(false);
+        float savedVol = PlayerPrefs.GetFloat("savedVol");
+
+        soundSlider.GetComponent<Slider>().value = savedVol; 
     }
 
     // Update is called once per frame
@@ -36,6 +39,7 @@ public class Settings : MonoBehaviour
         {
             masterMixer.SetFloat("soundsVol", soundSlider.GetComponent<Slider>().value);
         }
+        PlayerPrefs.SetFloat("savedVol", soundSlider.GetComponent<Slider>().value);
     }
 
     public void TurnOn()
