@@ -141,7 +141,7 @@ public class Leaderboards : MonoBehaviour
 
 
             //highlight player entry on the leaderboard
-            if (rank == 1)
+            if (name == Player.Instance.playerName)
             {
                 entryTransform.Find("rankText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
                 entryTransform.Find("scoreText").GetComponent<TextMeshProUGUI>().color = Color.yellow;
