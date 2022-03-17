@@ -6,7 +6,16 @@ public class Customize : MonoBehaviour
 {
     [SerializeField]
     private GameObject customizeCamera;
-    // Start is called before the first frame update
+    [SerializeField]
+    private GameObject startMenu;
+    private GameObject score;
+
+    private void Awake()
+    {
+        startMenu = GameObject.Find("StartMenu").gameObject;
+        score = GameObject.Find("Score").gameObject;
+    }
+
     void Start()
     {
         
@@ -22,11 +31,16 @@ public class Customize : MonoBehaviour
     {
         // UIManager.Instance.TurnOn(customizeCamera);
         transform.GetChild(0).gameObject.SetActive(true);
+        startMenu.SetActive(false);
+        score.SetActive(false);
+
     }
 
     public void TurnOff()
     {
         //UIManager.Instance.TurnOff(customizeCamera);
         transform.GetChild(0).gameObject.SetActive(false);
+        startMenu.SetActive(true);
+        score.SetActive(true);
     }
 }
