@@ -44,12 +44,12 @@ public class Settings : MonoBehaviour
 
     public void TurnOn()
     {
-        UIManager.Instance.TurnOn(transform.GetChild(0).gameObject);
+        transform.GetChild(0).gameObject.SetActive(true);
     }
 
     public void TurnOff()
     {
-        UIManager.Instance.TurnOff(transform.GetChild(0).gameObject);
+        transform.GetChild(0).gameObject.SetActive(false);
     }
       
 }
