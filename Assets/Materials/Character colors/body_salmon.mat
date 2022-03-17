@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Toon Playerl
+  m_Name: body_salmon
   m_Shader: {fileID: 4800000, guid: 8dd267e427d1c524898cdd626b3c4166, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -78,8 +78,9 @@ Material:
     - _UnlitOutlineThickness: 0.127
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.557207, g: 0.9716981, b: 0.53626734, a: 1}
+    - _Color: {r: 0.972549, g: 0.5372549, b: 0.5726042, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
-    - _UnlitColor: {r: 0.3143846, g: 0.764151, b: 0.28475437, a: 1}
+    - _UnlitColor: {r: 0.7647059, g: 0.31346002, b: 0.28627455, a: 1}
+  m_BuildTextureStacks: []
