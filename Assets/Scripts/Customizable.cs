@@ -16,7 +16,7 @@ public class Customizable : MonoBehaviour
             customization.UpdateSubObjects();
         }
     }
-
+    
     void Update()
     {
         SelectCustomizationWithUpDownArrows();
