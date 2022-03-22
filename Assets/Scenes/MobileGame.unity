@@ -3032,8 +3032,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1011354158}
-        m_TargetAssemblyTypeName: Customizable, Assembly-CSharp
+      - m_Target: {fileID: 561339915}
+        m_TargetAssemblyTypeName: Customize, Assembly-CSharp
         m_MethodName: PreviousCosmetic
         m_Mode: 1
         m_Arguments:
@@ -3105,6 +3105,7 @@ MonoBehaviour:
   selectionArrows: {fileID: 1296708165}
   hatsBtn: {fileID: 195067490}
   bodyBtn: {fileID: 1049415209}
+  player: {fileID: 1011354154}
 --- !u!1 &568697487 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4799835648979348032, guid: 8f5177a1f90a0624cb4475dbad48ef8e,
@@ -3237,8 +3238,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1011354158}
-        m_TargetAssemblyTypeName: Customizable, Assembly-CSharp
+      - m_Target: {fileID: 561339915}
+        m_TargetAssemblyTypeName: Customize, Assembly-CSharp
         m_MethodName: NextCosmetic
         m_Mode: 1
         m_Arguments:
@@ -3644,7 +3645,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1137694180089840608}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1011354154}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d12f1c8e88c07e34a9810d784ead6d85, type: 3}
@@ -5033,18 +5034,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1137694180089840608}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1011354158 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 398550348, guid: 8f5177a1f90a0624cb4475dbad48ef8e,
+--- !u!1 &1011354154 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9000456783365250432, guid: 8f5177a1f90a0624cb4475dbad48ef8e,
     type: 3}
   m_PrefabInstance: {fileID: 1137694180089840608}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c157c28587fdd9e40ba81ee0f0aab9cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1044010437 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7658647389614459131, guid: 8f5177a1f90a0624cb4475dbad48ef8e,
@@ -16875,7 +16870,7 @@ PrefabInstance:
     - target: {fileID: 9000456783365250432, guid: 8f5177a1f90a0624cb4475dbad48ef8e,
         type: 3}
       propertyPath: m_Name
-      value: Low Poly Man
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 9061668777215903566, guid: 8f5177a1f90a0624cb4475dbad48ef8e,
         type: 3}

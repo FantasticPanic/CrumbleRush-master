@@ -28,7 +28,7 @@ public class Customize : MonoBehaviour
     private bool isCustomizing;
 
     [SerializeField]
-    private GameObject Player;
+    private GameObject player;
 
 
     private static Customize instance;
@@ -58,7 +58,13 @@ public class Customize : MonoBehaviour
     {
         selectionArrows.SetActive(false);
         isCustomizing = false;
-     
+        player.transform.GetComponent<Customizable>().Customizations[0]._materialIndex = PlayerPrefs.GetInt("BodyVal");
+        player.transform.GetComponent<Customizable>().Customizations[1]._subObjectIndex = PlayerPrefs.GetInt("HatVal");
+        Debug.Log("Hat index is " +player.transform.GetComponent<Customizable>().Customizations[1]._subObjectIndex);
+        Debug.Log("Body index is "+ player.transform.GetComponent<Customizable>().Customizations[0]._materialIndex);
+        player.transform.GetComponent<Customizable>().Customizations[0].UpdateRenderers();
+        player.transform.GetComponent<Customizable>().Customizations[1].UpdateSubObjects();
+
 
     }
 
@@ -82,7 +88,11 @@ public class Customize : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
         startMenu.SetActive(true);
         score.SetActive(true);
-       
+        PlayerPrefs.SetInt("BodyVal", player.transform.GetComponent<Customizable>().Customizations[0]._materialIndex);
+        PlayerPrefs.SetInt("HatVal", player.transform.GetComponent<Customizable>().Customizations[1]._subObjectIndex);
+        PlayerPrefs.Save();
+        Debug.Log("saving body index "+ player.transform.GetComponent<Customizable>().CurrentCustomization._materialIndex);
+        Debug.Log("saving hat index" + player.transform.GetComponent<Customizable>().CurrentCustomization._subObjectIndex);
     }
 
     public void GoBack()
@@ -114,7 +124,7 @@ public class Customize : MonoBehaviour
         bodyBtn.SetActive(false);
         selectionArrows.SetActive(true);
         isCustomizing = true;
-        Player.transform.GetComponent<Customizable>()._currentCustomizationIndex = 1;
+        player.transform.GetComponent<Customizable>()._currentCustomizationIndex = 1;
     }
 
     public void TransitionBody()
@@ -125,18 +135,18 @@ public class Customize : MonoBehaviour
         bodyBtn.SetActive(false);
         selectionArrows.SetActive(true);
         isCustomizing = true;
-        Player.transform.GetComponent<Customizable>()._currentCustomizationIndex = 0;
+        player.transform.GetComponent<Customizable>()._currentCustomizationIndex = 0;
     }
 
     public void NextCosmetic()
     {
-       Player.transform.GetComponent<Customizable>().CurrentCustomization.NextSubObject();
-       Player.transform.GetComponent<Customizable>().CurrentCustomization.NextMaterial();
+       player.transform.GetComponent<Customizable>().CurrentCustomization.NextSubObject();
+       player.transform.GetComponent<Customizable>().CurrentCustomization.NextMaterial();
     }
 
     public void PreviousCosmetic()
     {
-       Player.transform.GetComponent<Customizable>().CurrentCustomization.PreviousSubObject();
-       Player.transform.GetComponent<Customizable>().CurrentCustomization.PreviousMaterial();
+       player.transform.GetComponent<Customizable>().CurrentCustomization.PreviousSubObject();
+       player.transform.GetComponent<Customizable>().CurrentCustomization.PreviousMaterial();
     }
 }
