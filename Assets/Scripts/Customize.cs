@@ -24,6 +24,20 @@ public class Customize : MonoBehaviour
     [SerializeField]
     private GameObject bodyBtn;
     private bool isCustomizing;
+
+    private static Customize instance;
+
+    public static Customize Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<Customize>();
+            }
+            return instance;
+        }
+    }
     
 
     private void Awake()

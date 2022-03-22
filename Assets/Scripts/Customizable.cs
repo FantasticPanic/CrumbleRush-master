@@ -41,6 +41,18 @@ public class Customizable : MonoBehaviour
             _currentCustomizationIndex = 0;
         CurrentCustomization = Customizations[_currentCustomizationIndex];
     }
+
+    public void NextCosmetic()
+    {
+        CurrentCustomization.NextSubObject();
+        CurrentCustomization.NextMaterial();
+    }
+
+    public void PreviousCosmetic()
+    {
+        CurrentCustomization.PreviousSubObject();
+        CurrentCustomization.PreviousMaterial();
+    }
 }
 
 [Serializable]
@@ -63,6 +75,15 @@ public class Customization
         UpdateRenderers();
     }
 
+    public void PreviousMaterial()
+    {
+        _materialIndex--;
+        if (_materialIndex <= Materials.Count)
+        {
+            _materialIndex = Materials.Count - 1;
+        }
+    }
+
     public void NextSubObject()
     {
         _subObjectIndex++;
@@ -70,6 +91,15 @@ public class Customization
             _subObjectIndex = 0;
 
         UpdateSubObjects();
+    }
+
+    public void PreviousSubObject()
+    {
+        _subObjectIndex--;
+        if (_subObjectIndex <= SubObjects.Count)
+        {
+            _subObjectIndex = SubObjects.Count-1;
+        }
     }
 
     public void UpdateSubObjects()
@@ -85,4 +115,6 @@ public class Customization
             if (renderer)
                 renderer.material = Materials[_materialIndex];
     }
+
+   
 }
