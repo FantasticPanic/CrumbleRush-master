@@ -5,7 +5,7 @@ using UnityEngine;
 public class Customizable : MonoBehaviour
 {
     public List<Customization> Customizations;
-    int _currentCustomizationIndex;
+    public  int _currentCustomizationIndex;
     public Customization CurrentCustomization { get; private set; }
 
     void Awake()
@@ -41,18 +41,6 @@ public class Customizable : MonoBehaviour
             _currentCustomizationIndex = 0;
         CurrentCustomization = Customizations[_currentCustomizationIndex];
     }
-
-    public void NextCosmetic()
-    {
-        CurrentCustomization.NextSubObject();
-        CurrentCustomization.NextMaterial();
-    }
-
-    public void PreviousCosmetic()
-    {
-        CurrentCustomization.PreviousSubObject();
-        CurrentCustomization.PreviousMaterial();
-    }
 }
 
 [Serializable]
@@ -63,8 +51,8 @@ public class Customization
     public List<Renderer> Renderers;
     public List<Material> Materials;
     public List<GameObject> SubObjects;
-    int _materialIndex;
-    int _subObjectIndex;
+    public int _materialIndex;
+    public int _subObjectIndex;
 
     public void NextMaterial()
     {
@@ -78,10 +66,9 @@ public class Customization
     public void PreviousMaterial()
     {
         _materialIndex--;
-        if (_materialIndex <= Materials.Count)
-        {
+        if (_materialIndex < 0)
             _materialIndex = Materials.Count - 1;
-        }
+        UpdateRenderers();
     }
 
     public void NextSubObject()
@@ -96,10 +83,10 @@ public class Customization
     public void PreviousSubObject()
     {
         _subObjectIndex--;
-        if (_subObjectIndex <= SubObjects.Count)
-        {
+        if (_subObjectIndex < 0)
             _subObjectIndex = SubObjects.Count-1;
-        }
+        UpdateSubObjects();
+
     }
 
     public void UpdateSubObjects()

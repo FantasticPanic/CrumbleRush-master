@@ -11,12 +11,14 @@ public class Customize : MonoBehaviour
     private GameObject startMenu;
     [SerializeField]
     private GameObject score;
+
     [SerializeField]
     private GameObject hatsCamPosition;
     [SerializeField]
     private GameObject bodyCamPosition;
     [SerializeField]
     private GameObject defaultCamPosition;
+
     [SerializeField]
     private GameObject selectionArrows;
     [SerializeField]
@@ -24,6 +26,10 @@ public class Customize : MonoBehaviour
     [SerializeField]
     private GameObject bodyBtn;
     private bool isCustomizing;
+
+    [SerializeField]
+    private GameObject Player;
+
 
     private static Customize instance;
 
@@ -52,6 +58,8 @@ public class Customize : MonoBehaviour
     {
         selectionArrows.SetActive(false);
         isCustomizing = false;
+     
+
     }
 
     // Update is called once per frame
@@ -74,6 +82,7 @@ public class Customize : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
         startMenu.SetActive(true);
         score.SetActive(true);
+       
     }
 
     public void GoBack()
@@ -105,6 +114,7 @@ public class Customize : MonoBehaviour
         bodyBtn.SetActive(false);
         selectionArrows.SetActive(true);
         isCustomizing = true;
+        Player.transform.GetComponent<Customizable>()._currentCustomizationIndex = 1;
     }
 
     public void TransitionBody()
@@ -115,5 +125,18 @@ public class Customize : MonoBehaviour
         bodyBtn.SetActive(false);
         selectionArrows.SetActive(true);
         isCustomizing = true;
+        Player.transform.GetComponent<Customizable>()._currentCustomizationIndex = 0;
+    }
+
+    public void NextCosmetic()
+    {
+       Player.transform.GetComponent<Customizable>().CurrentCustomization.NextSubObject();
+       Player.transform.GetComponent<Customizable>().CurrentCustomization.NextMaterial();
+    }
+
+    public void PreviousCosmetic()
+    {
+       Player.transform.GetComponent<Customizable>().CurrentCustomization.PreviousSubObject();
+       Player.transform.GetComponent<Customizable>().CurrentCustomization.PreviousMaterial();
     }
 }
