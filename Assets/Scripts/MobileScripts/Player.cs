@@ -54,6 +54,7 @@ public class Player : MonoBehaviour
     private float pointIncreasedPerSecond = 0f;
     public string playerName = "You";
     private bool isLeaderboardUpdated = false;
+    private bool isMoving = false;
     //UI Canvas
     public Image background;
 
@@ -148,6 +149,7 @@ public class Player : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
                 {
+                    isMoving = true;
                     //play random sound from array of movement sounds
                     SoundManager.SoundInstance.PlayRandomMoveSound();
                     //move the player based on their previous direction
@@ -170,9 +172,13 @@ public class Player : MonoBehaviour
                 pointIncreasedPerSecond = 0;
                 ballCollision.enabled = false;
             }
+            if (isMoving == true)
+            {
+                scoreText.text = "" + (int)score;
+                score += pointIncreasedPerSecond * Time.deltaTime;
+            } 
         }
-        scoreText.text = "" + (int)score;
-        score += pointIncreasedPerSecond * Time.deltaTime;
+    
 
 
         // multiple by speed frame by frame count
@@ -257,6 +263,7 @@ public class Player : MonoBehaviour
     private void GameOver()
     {
         isDead = true;
+        isMoving = false;
         resetBtn.SetActive(true);
         gameOverAnim.SetTrigger("GameOver");
         SetColliderParts(false);
