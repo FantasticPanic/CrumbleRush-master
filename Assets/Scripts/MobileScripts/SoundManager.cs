@@ -19,6 +19,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip[] audioClips;
     public AudioClip gameOverClip;
     public AudioClip pickUpClip;
+    public AudioClip[] selectClip;
 
     private static AudioSource _audioSource = null;
 
@@ -152,5 +153,11 @@ public class SoundManager : MonoBehaviour
     public void PlayPickupSound()
     {
         _audioSource.PlayOneShot(pickUpClip);
+    }
+
+    public void PlaySelectSound()
+    {
+        int selectSound = Random.Range(0, selectClip.Length);
+        _audioSource.PlayOneShot(selectClip[selectSound]);
     }
 }
