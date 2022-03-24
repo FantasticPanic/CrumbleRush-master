@@ -20,6 +20,7 @@ public class SoundManager : MonoBehaviour
     public AudioClip gameOverClip;
     public AudioClip pickUpClip;
     public AudioClip[] selectClip;
+    public AudioClip speedUpClip;
 
     private static AudioSource _audioSource = null;
 
@@ -159,5 +160,10 @@ public class SoundManager : MonoBehaviour
     {
         int selectSound = Random.Range(0, selectClip.Length);
         _audioSource.PlayOneShot(selectClip[selectSound]);
+    }
+
+    public void PlaySpeedUpSound()
+    {
+        _audioSource.PlayOneShot(speedUpClip);
     }
 }

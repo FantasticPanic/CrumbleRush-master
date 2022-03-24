@@ -329,6 +329,8 @@ public class Player : MonoBehaviour
     {
         if (score > oldScore + 15)
         {
+            SoundManager.SoundInstance.PlaySpeedUpSound();
+            GameplayUIManager.Instance.SpeedPopup();
             oldScore = score;
             speed += 0.5f;
         }
