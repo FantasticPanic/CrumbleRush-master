@@ -28,6 +28,9 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField]
     private GameObject warningText;
     public float verticalPunch;
+    [SerializeField]
+    private GameObject score;
+    public float scorePunch;
 
     private void Awake()
     {
@@ -56,5 +59,12 @@ public class GameplayUIManager : MonoBehaviour
         warningText.transform.DOPunchPosition(new Vector3(0, verticalPunch), 1f, 10, 1f, false);
         warningIcon.transform.GetComponent<Image>().DOFade(0f,3f);
         warningText.transform.GetComponent<TextMeshProUGUI>().DOFade(0f, 3f);
+    }
+
+    public void ScorePopup()
+    {
+        score.transform.DORewind();
+        score.transform.DOPunchScale(new Vector3(scorePunch, scorePunch), 0.5f, 5, 1f);
+        
     }
 }

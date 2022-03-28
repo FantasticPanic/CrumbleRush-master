@@ -47,7 +47,7 @@ public class Leaderboards : MonoBehaviour
             AddScoreEntry(222, "myname_geooff");
             AddScoreEntry(351, "marks_wherehouz");
             AddScoreEntry(515, "tony hawk");
-            AddScoreEntry(3514, "Chef Ramsay");
+            AddScoreEntry(1000, "Chef Ramsay");
             AddScoreEntry(194, "mad_money_shaun");
             AddScoreEntry(325, "gamscam");
             AddScoreEntry(436, "lastBastion");

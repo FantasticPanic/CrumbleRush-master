@@ -227,6 +227,7 @@ public class Player : MonoBehaviour
             scoreText.text = score.ToString();
             CombatTextManager.Instance.CreateText(col.transform.position, "+3", new Color32(255,255,0, 255), false);
             SoundManager.SoundInstance.PlayPickupSound();
+            GameplayUIManager.Instance.ScorePopup();
         }
     }
 
@@ -327,12 +328,13 @@ public class Player : MonoBehaviour
 
     private void IncreaseSpeed()
     {
-        if (score > oldScore + 15)
+        if (score > oldScore + 15 && speed < 17)
         {
             SoundManager.SoundInstance.PlaySpeedUpSound();
             GameplayUIManager.Instance.SpeedPopup();
             oldScore = score;
             speed += 0.5f;
+
         }
     }
 

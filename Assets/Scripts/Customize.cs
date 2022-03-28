@@ -64,6 +64,7 @@ public class Customize : MonoBehaviour
         Debug.Log("Body index is "+ player.transform.GetComponent<Customizable>().Customizations[0]._materialIndex);
         player.transform.GetComponent<Customizable>().Customizations[0].UpdateRenderers();
         player.transform.GetComponent<Customizable>().Customizations[1].UpdateSubObjects();
+       // player.GetComponent<TrailRenderer>().material = player.transform.GetComponent<Customizable>().Customizations[0].Materials[PlayerPrefs.GetInt("BodyVal")];
 
 
     }
