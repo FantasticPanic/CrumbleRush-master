@@ -79,8 +79,10 @@ public class Customize : MonoBehaviour
     {
         // UIManager.Instance.TurnOn(customizeCamera);
         transform.GetChild(0).gameObject.SetActive(true);
+        customizeCamera.SetActive(true);
         startMenu.SetActive(false);
         score.SetActive(false);
+        customizeCamera.transform.DOMove(defaultCamPosition.transform.position, .5f, false);
     }
 
     public void TurnOff()
@@ -89,6 +91,8 @@ public class Customize : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
         startMenu.SetActive(true);
         score.SetActive(true);
+        customizeCamera.SetActive(false);
+        customizeCamera.transform.position = Vector3.zero;
         PlayerPrefs.SetInt("BodyVal", player.transform.GetComponent<Customizable>().Customizations[0]._materialIndex);
         PlayerPrefs.SetInt("HatVal", player.transform.GetComponent<Customizable>().Customizations[1]._subObjectIndex);
         PlayerPrefs.Save();
