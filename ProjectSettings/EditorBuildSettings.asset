@@ -5,10 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MobileGame.unity
     guid: 21b4e7cd8c21feb49973089d9fc02148
   - enabled: 0
-    path: Assets/Scenes/MobileGame_Desktop.unity
-    guid: f6f01b666ace67b4db0110629c0f9616
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/MobileGame_desktop.unity
+    guid: 46c7d3ae522729c4ca17d34452010015
   m_configObjects: {}
