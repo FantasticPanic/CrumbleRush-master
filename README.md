@@ -8,3 +8,6 @@ I am currently working on the version 3.0 update of the game which will add in s
 
 The game can be downloaded here on the Google Play Store
 https://play.google.com/store/apps/details?id=com.FantasticPanic.CrumbleRush
+
+The game can also be played on Itch.io here:
+https://nicholasramsay.itch.io/crumble-rush
